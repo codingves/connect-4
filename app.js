@@ -85,7 +85,7 @@ const isNonDiagonalWinner = (cellArray) => {
   return false;
 };
 
-const isDiagonalWinner = (_cells, isReversed = false) => {
+const isDiagonalWinner = (_cells) => {
   for (let x = 0; x < 3; x++) {
     for (let y = 3; y < _cells[x].length; y++) {
       if (_cells[x][y].tile.value) {
@@ -94,11 +94,24 @@ const isDiagonalWinner = (_cells, isReversed = false) => {
           _cells[x][y].tile.value === _cells[x + 2][y - 2].tile.value &&
           _cells[x][y].tile.value === _cells[x + 3][y - 3].tile.value
         ) {
-          if (isReversed) {
-            changeWinnerTilesStyle([0, 1, 2, 3].map((i) => cells[x + i][y + i]));
-          } else {
-            changeWinnerTilesStyle([0, 1, 2, 3].map((i) => cells[x + i][y - i]));
-          }
+          changeWinnerTilesStyle([0, 1, 2, 3].map((i) => cells[x + i][y - i]));
+          return true;
+        }
+      }
+    }
+  }
+};
+
+const isAntiDiagonalWinner = (_cells) => {
+  for (let x = 0; x < 3; x++) {
+    for (let y = 3; y >= 0; y--) {
+      if (_cells[x][y].tile.value) {
+        if (
+          _cells[x][y].tile.value === _cells[x + 1][y + 1].tile.value &&
+          _cells[x][y].tile.value === _cells[x + 2][y + 2].tile.value &&
+          _cells[x][y].tile.value === _cells[x + 3][y + 3].tile.value
+        ) {
+          changeWinnerTilesStyle([0, 1, 2, 3].map((i) => cells[x + i][y + i]));
           return true;
         }
       }
@@ -111,18 +124,11 @@ const isWinner = () => {
     if (isNonDiagonalWinner(row)) return true;
   }
 
-  for (const column of getColumns(cells)) {
+  for (const column of getColumns()) {
     if (isNonDiagonalWinner(column)) return true;
   }
 
-  if (
-    isDiagonalWinner(cells) ||
-    isDiagonalWinner(
-      [...cells].map((row) => [...row].reverse()),
-      true
-    )
-  )
-    return true;
+  if (isDiagonalWinner(cells) || isAntiDiagonalWinner(cells)) return true;
 };
 
 const isFullTile = () => {
@@ -232,6 +238,7 @@ const startGame = () => {
 
 newGameBtn.addEventListener("click", () => {
   modalContainer.classList.remove("show-modal");
+  modalContainer.querySelector("img").removeAttribute("src");
   document.querySelectorAll(".tile").forEach((tileElement) => tileElement.remove());
   document.querySelectorAll(".cell").forEach((cellElement) => cellElement.remove());
   startGame();
