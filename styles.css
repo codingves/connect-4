@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Annie+Use+Your+Telescope&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #001b79;
+  --color-secondary: #08d9d6;
+  --transition: all 0.3s ease-in-out;
+}
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: "Annie Use Your Telescope", cursive;
+  background: linear-gradient(rgba(0, 27, 121, 0.85), rgba(255, 255, 255, 0.75)), url(./images/connect-4__bg.jpg) center/cover no-repeat;
+}
+
+.modal-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  transition: var(--transition);
+  transform: translateY(-100%);
+}
+.show-modal {
+  transform: translateY(0);
+}
+.modal {
+  background: #fff;
+  width: 80%;
+  max-width: 480px;
+  border-radius: 12px;
+  text-align: center;
+}
+.modal img {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+.modal p {
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+}
+#new-game {
+  font: inherit;
+  text-transform: uppercase;
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  border: 2px solid var(--color-primary);
+  margin-bottom: 2rem;
+  background: none;
+  color: var(--color-primary);
+  border-radius: 12px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+#new-game:hover {
+  background: var(--color-primary);
+  color: var(--color-secondary);
+}
+
+h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-secondary);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 4px;
+}
+
+.turn {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cells {
+  --cell-size: 40px;
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  position: relative;
+  border-radius: 12px;
+  margin-top: calc(var(--cell-size) * 2);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.cell img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.tile {
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  width: var(--cell-size);
+  height: var(--cell-size);
+  position: absolute;
+  background: var(--bg);
+  border-radius: 50%;
+  top: calc(var(--x) * var(--cell-size));
+  left: calc(var(--y) * var(--cell-size));
+  transition: var(--transition);
+  transition-duration: 0.5s;
+  display: grid;
+  place-items: center;
+  transform: scale(0.8);
+  animation: appear 0.5s ease-in-out 1;
+}
+.dance-animation {
+  animation: dance 0.5s ease-in-out 4;
+}
+.tile img {
+  width: 75%;
+  height: 75%;
+  display: block;
+  object-fit: cover;
+}
+
+@keyframes dance {
+  0% {
+    transform: scale(0.8) rotate(0);
+  }
+  100% {
+    transform: scale(0.8) rotate(360deg);
+  }
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 400px) {
+  .cells {
+    --cell-size: 50px;
+  }
+  h1 {
+    font-size: 4rem;
+  }
+}
+@media screen and (min-width: 600px) {
+  .cells {
+    --cell-size: 60px;
+  }
+  h1 {
+    font-size: 5rem;
+  }
+  #new-game,
+  .modal p {
+    font-size: 2rem;
+  }
+}
+@media screen and (min-width: 800px) {
+  .cells {
+    --cell-size: 65px;
+  }
+  h1 {
+    font-size: 6.5rem;
+  }
+}
